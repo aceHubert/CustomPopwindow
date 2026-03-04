@@ -1,7 +1,9 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.pinguo-zhouwei'
+group = project.hasProperty('group') ? project.property('group') : 'com.github.aceHubert'
+version = project.hasProperty('version') ? project.property('version') : '2.1.1-fix'
+archivesBaseName = 'CustomPopwindow'
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
@@ -31,3 +33,19 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
 }
+
+artifacts {
+    archives file("$buildDir/outputs/aar/Library-release.aar")
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.groupId = project.group
+        pom.artifactId = archivesBaseName
+        pom.version = project.version
+        pom.packaging = 'aar'
+    }
+}
+
+install.dependsOn assembleRelease
+task publishToMavenLocal(dependsOn: install)
