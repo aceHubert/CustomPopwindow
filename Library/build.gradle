@@ -38,14 +38,17 @@ artifacts {
     archives file("$buildDir/outputs/aar/Library-release.aar")
 }
 
-install {
-    repositories.mavenInstaller {
-        pom.groupId = project.group
-        pom.artifactId = archivesBaseName
-        pom.version = project.version
-        pom.packaging = 'aar'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file://${new File(System.getProperty('user.home'), '.m2/repository').absolutePath}")
+            pom.groupId = project.group
+            pom.artifactId = archivesBaseName
+            pom.version = project.version
+            pom.packaging = 'aar'
+        }
     }
 }
 
-install.dependsOn assembleRelease
-task publishToMavenLocal(dependsOn: install)
+uploadArchives.dependsOn assembleRelease
+task publishToMavenLocal(dependsOn: uploadArchives)
