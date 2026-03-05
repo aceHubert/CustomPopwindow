@@ -2,4 +2,4 @@ jdk:
   - openjdk8
 
 install:
-  - ./gradlew :Library:publishToMavenLocal -Pgroup=com.github.aceHubert
+  - ./gradlew :Library:publishToMavenLocal -Pgroup=com.github.aceHubert -Pversion=$VERSION
