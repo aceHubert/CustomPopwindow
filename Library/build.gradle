@@ -50,5 +50,11 @@ uploadArchives {
     }
 }
 
-uploadArchives.dependsOn assembleRelease
-task publishToMavenLocal(dependsOn: uploadArchives)
+afterEvaluate {
+    def releaseTask = tasks.findByName('assembleRelease') ?: tasks.findByName('assemble')
+    if (releaseTask != null) {
+        uploadArchives.dependsOn releaseTask
+    }
+}
+
+task publishToMavenLocal(dependsOn: 'uploadArchives')
